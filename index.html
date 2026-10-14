@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Pangaea Oolong-Black</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500&text=%E5%9B%9E%E7%94%98%E6%91%87%E9%9D%92%E6%9D%80%E5%8C%85%E6%8F%89%E8%8C%B6&display=swap">
+<style>
+/* Layout: a botanical monograph laid on celadon porcelain. Specimen labels ride a left margin; the work sits in a wide right column. */
+:root {
+  --ground: #EAF0EA;
+  --paper: #F6F9F4;
+  --ink: #17231C;
+  --muted: #536559;
+  --line: #C6D2C8;
+  --leaf: #2F6640;
+  --liquor: #A9650A;
+  --copper: #A13B26;
+  --cup: #FFFFFF;
+  --cup-rim: #D3DDD4;
+  --shadow: rgba(23, 35, 28, .10);
+
+  --f-display: "Gloock", "Bodoni 72", "Didot", Georgia, serif;
+  --f-body: "Hanken Grotesk", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-cjk: "Noto Serif SC", "Songti SC", "SimSun", serif;
+
+  --step--1: .8125rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2rem, 4.5vw, 3rem);
+  --step-4: clamp(3.4rem, 11vw, 8.5rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0F1612; --paper: #16201A; --ink: #E4ECE4; --muted: #97A99C; --line: #2A3A30;
+    --leaf: #7DB68A; --liquor: #E7A646; --copper: #E07A60; --cup: #EEF2EC; --cup-rim: #9FB0A4;
+    --shadow: rgba(0, 0, 0, .45); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0F1612; --paper: #16201A; --ink: #E4ECE4; --muted: #97A99C; --line: #2A3A30;
+  --leaf: #7DB68A; --liquor: #E7A646; --copper: #E07A60; --cup: #EEF2EC; --cup-rim: #9FB0A4;
+  --shadow: rgba(0, 0, 0, .45); color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1160px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.05; }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); line-height: 1.2; }
+p { margin: 0; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.cjk { font-family: var(--f-cjk); font-weight: 500; }
+.label {
+  font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.prose { max-width: 64ch; display: grid; gap: 1em; }
+.lede { font-size: var(--step-1); line-height: 1.45; max-width: 40ch; }
+em.latin { font-style: italic; }
+:focus-visible { outline: 2px solid var(--liquor); outline-offset: 3px; border-radius: 2px; }
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 64px); align-items: center;
+  padding-block: clamp(40px, 8vw, 96px) clamp(32px, 6vw, 72px);
+}
+.hero-text { display: grid; gap: 22px; min-width: 0; }
+.hero h1 { font-size: var(--step-4); letter-spacing: -.02em; line-height: .9; }
+.hero h1 span { display: block; font-size: .36em; letter-spacing: 0; color: var(--liquor); margin-top: .25em; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.hero .meta span::before { content: "◦ "; color: var(--leaf); }
+
+.cup-stage { display: grid; gap: 18px; justify-items: center; min-width: 0; }
+.cup-svg { width: min(100%, 420px); height: auto; overflow: visible; }
+.cup-svg .saucer { fill: var(--paper); stroke: var(--line); }
+.cup-svg .cup-body { fill: var(--cup); stroke: var(--cup-rim); stroke-width: 2; }
+.cup-svg .shadow { fill: var(--shadow); }
+.ripple { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: 1.5; }
+
+.ox-panel { width: min(100%, 440px); display: grid; gap: 12px; }
+.ox-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.ox-val { font-family: var(--f-display); font-size: var(--step-2); line-height: 1; }
+.ox-cat { font-family: var(--f-mono); font-size: var(--step--1); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--liquor); height: 28px; margin: 0; cursor: pointer; }
+.ox-scale { position: relative; height: 16px; font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.ox-scale span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.ox-scale span:first-child { transform: none; }
+.ox-scale span:last-child { transform: translateX(-100%); }
+.ox-scale .target { color: var(--liquor); font-weight: 500; }
+.chem { display: grid; gap: 6px; }
+.chem-row { display: grid; grid-template-columns: 9.5em 1fr; gap: 10px; align-items: center; font-size: var(--step--1); }
+.chem-track { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.chem-fill { height: 100%; border-radius: 4px; transition: width .15s linear; }
+.ox-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn {
+  font: 500 var(--step--1)/1 var(--f-mono); letter-spacing: .04em;
+  padding: 10px 14px; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--ink); border: 1px solid var(--line);
+}
+.btn:hover { border-color: var(--liquor); color: var(--liquor); }
+.note { font-size: var(--step--1); color: var(--muted); }
+
+/* ---------- Sections ---------- */
+.sec {
+  display: grid; grid-template-columns: 210px minmax(0, 1fr);
+  gap: 20px clamp(24px, 4vw, 56px);
+  padding-block: clamp(48px, 8vw, 96px);
+  border-top: 1px solid var(--line);
+}
+.sec-tag { display: grid; gap: 6px; align-content: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); }
+.sec-tag .num { font-family: var(--f-display); font-size: 2.6rem; line-height: 1; color: var(--liquor); }
+.sec-body { display: grid; gap: clamp(28px, 4vw, 44px); min-width: 0; }
+.sec-head { display: grid; gap: 14px; }
+
+/* tension */
+.tension { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 20px; align-items: stretch; }
+.pole { padding: 22px; border: 1px solid var(--line); background: var(--paper); display: grid; gap: 10px; align-content: start; }
+.pole h3 { font-size: var(--step-2); }
+.pole ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.vs { align-self: center; font-family: var(--f-display); font-size: var(--step-2); color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.fact { padding: 18px 18px 18px 0; display: grid; gap: 6px; border-bottom: 1px solid var(--line); }
+.fact b { font-family: var(--f-display); font-weight: 400; font-size: var(--step-3); line-height: 1; color: var(--copper); }
+.fact.good b { color: var(--leaf); }
+
+/* equation */
+.eq-box { background: var(--paper); border: 1px solid var(--line); padding: clamp(18px, 3vw, 32px); display: grid; gap: 22px; }
+.eq {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 6px;
+  font-family: var(--f-display); font-size: clamp(1.25rem, 2.6vw, 1.75rem); line-height: 1.2;
+}
+.eq sub { font-family: var(--f-mono); font-size: .45em; letter-spacing: .02em; }
+.eq .op { color: var(--muted); padding: 0 2px; }
+.term {
+  font: inherit; color: inherit; background: transparent; cursor: pointer;
+  border: 1px dashed var(--line); border-radius: 6px; padding: 2px 8px;
+}
+.term.plus { border-color: color-mix(in oklab, var(--leaf) 55%, transparent); }
+.term.minus { border-color: color-mix(in oklab, var(--copper) 55%, transparent); }
+.term:hover, .term[aria-pressed="true"] { background: var(--ground); border-style: solid; }
+.term.plus[aria-pressed="true"] { border-color: var(--leaf); }
+.term.minus[aria-pressed="true"] { border-color: var(--copper); }
+.term-def { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; border-top: 1px solid var(--line); padding-top: 18px; min-height: 7.5em; }
+.term-def .kind { grid-row: span 2; font-family: var(--f-mono); font-size: var(--step--1); padding: 4px 10px; border-radius: 999px; align-self: start; color: var(--paper); }
+.term-def h3 { font-family: var(--f-body); font-weight: 600; font-size: var(--step-0); }
+
+/* DOT chart */
+.dot-chart { display: grid; gap: 14px; }
+.dot-row { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 16px; align-items: center; }
+.dot-name { display: grid; line-height: 1.25; }
+.dot-name small { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.dot-track { position: relative; height: 22px; }
+.dot-track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line); }
+.dot-bar { position: absolute; top: 3px; height: 16px; border-radius: 8px; background: var(--copper); opacity: .85; }
+.dot-bar.soft { background: var(--liquor); }
+.dot-axis { position: relative; height: 18px; font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.dot-axis span { position: absolute; transform: translateX(-50%); }
+.dot-plot { position: relative; display: grid; gap: 14px; }
+.dot-thresh { position: absolute; top: -6px; bottom: 18px; width: 0; border-left: 1.5px dashed var(--leaf); }
+.dot-thresh-label { position: absolute; top: -26px; font-family: var(--f-mono); font-size: 11px; color: var(--leaf); white-space: nowrap; transform: translateX(-50%); }
+.chart-frame { padding-top: 26px; overflow-x: auto; }
+.chart-inner { min-width: 460px; display: grid; gap: 14px; }
+
+.shield { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+.shield > div { display: grid; gap: 4px; align-content: start; padding-top: 14px; border-top: 2px solid var(--leaf); }
+.shield b { font-family: var(--f-display); font-weight: 400; font-size: var(--step-2); line-height: 1.1; }
+
+/* aroma */
+.aroma { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 20px; }
+.aroma-col { display: grid; gap: 12px; align-content: start; }
+.aroma-col h3 { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.vol { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.vol .n { font-weight: 600; }
+.vol .d { grid-column: 1 / -1; color: var(--muted); font-size: .95em; }
+.vol .chip { font-family: var(--f-mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; align-self: center; }
+.bad { color: var(--copper); }
+.good-c { color: var(--leaf); }
+
+/* blocs */
+.blocs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); border-left: 1px solid var(--line); border-top: 1px solid var(--line); }
+.bloc { padding: 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 8px; align-content: start; }
+.bloc .where { font-size: var(--step--1); color: var(--muted); }
+.bloc ul { margin: 0; padding-left: 1.05em; display: grid; gap: 2px; }
+.bloc .rej { font-size: var(--step--1); color: var(--copper); }
+.tests { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px; }
+.test { background: var(--paper); border: 1px solid var(--line); padding: 18px; display: grid; gap: 8px; align-content: start; }
+.test .pass { font-family: var(--f-mono); font-size: 11px; color: var(--leaf); letter-spacing: .06em; text-transform: uppercase; }
+
+/* cultivar */
+.tree { display: grid; gap: 10px; justify-items: center; text-align: center; }
+.tree-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: center; width: 100%; }
+.node { border: 1px solid var(--line); background: var(--paper); padding: 14px 16px; display: grid; gap: 4px; width: min(100%, 250px); }
+.node .cv { font-weight: 600; }
+.node .var { font-size: 12px; font-style: italic; color: var(--muted); }
+.node .trait { font-family: var(--f-mono); font-size: 11px; color: var(--leaf); }
+.node.f1 { border-style: dashed; }
+.node.final { border: 2px solid var(--liquor); width: min(100%, 340px); padding: 18px; }
+.node.final .cv { font-family: var(--f-display); font-weight: 400; font-size: var(--step-2); font-style: italic; }
+.cross { font-family: var(--f-display); font-size: var(--step-2); color: var(--muted); }
+.down { color: var(--muted); font-family: var(--f-mono); line-height: 1; }
+.agro { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.agro div { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
+.agro b { font-family: var(--f-display); font-weight: 400; font-size: var(--step-3); line-height: 1; }
+
+/* process */
+.proc { list-style: none; margin: 0; padding: 0; display: grid; }
+.proc li { display: grid; grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 1.2fr); gap: 4px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); position: relative; }
+.proc .i { font-family: var(--f-display); font-size: var(--step-2); line-height: 1; color: var(--liquor); }
+.proc h3 { font-family: var(--f-body); font-weight: 600; font-size: var(--step-0); display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.proc h3 .cjk { color: var(--leaf); font-size: 1.1em; }
+.proc .p { font-family: var(--f-mono); font-size: var(--step--1); color: var(--muted); }
+.proc .e { color: var(--ink); }
+.proc li.key { background: linear-gradient(90deg, color-mix(in oklab, var(--liquor) 14%, transparent), transparent 70%); }
+
+/* blend */
+.blend { display: grid; gap: 10px; }
+.bar { display: flex; height: 54px; width: 100%; border: 1px solid var(--line); background: var(--paper); }
+.bar > div { height: 100%; position: relative; transition: filter .2s; }
+.bar > div:hover, .bar > div.hl { filter: brightness(1.12) saturate(1.1); }
+.bar .leafseg { display: flex; align-items: center; padding-left: 14px; color: var(--paper); font-family: var(--f-mono); font-size: var(--step--1); background: var(--leaf); }
+.zoom { height: 26px; position: relative; }
+.zoom svg { width: 100%; height: 100%; display: block; }
+.zoom path { fill: color-mix(in oklab, var(--liquor) 10%, transparent); stroke: var(--line); }
+.bot-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 0 32px; margin-top: 12px; }
+.bot { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 2px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: default; }
+.bot .sw { width: 14px; height: 14px; border-radius: 3px; margin-top: 5px; border: 1px solid var(--line); }
+.bot .nm { font-weight: 600; }
+.bot .nm em { font-weight: 400; color: var(--muted); }
+.bot .pc { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.bot .fn { grid-column: 2 / -1; font-size: .95em; color: var(--muted); }
+.bot .mol { grid-column: 2 / -1; font-family: var(--f-mono); font-size: 11px; color: var(--leaf); }
+.bot.hl { background: color-mix(in oklab, var(--liquor) 10%, transparent); }
+.excluded { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; padding: 14px 0; }
+.excluded s { font-style: italic; color: var(--muted); text-decoration-color: var(--copper); text-decoration-thickness: 2px; }
+.synergy { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 24px; }
+.synergy > div { display: grid; gap: 6px; align-content: start; }
+.synergy b { font-family: var(--f-display); font-weight: 400; font-size: var(--step-2); line-height: 1.1; color: var(--liquor); }
+
+/* radar + sip */
+.sense { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.radar { width: 100%; max-width: 520px; height: auto; justify-self: center; overflow: visible; }
+.radar .ring { fill: none; stroke: var(--line); }
+.radar .spoke { stroke: var(--line); }
+.radar .shape { fill: color-mix(in oklab, var(--liquor) 28%, transparent); stroke: var(--liquor); stroke-width: 2; stroke-linejoin: round; }
+.radar .pt { fill: var(--liquor); }
+.radar .pt.neg { fill: var(--copper); }
+.radar text { font-family: var(--f-mono); font-size: 11px; fill: var(--muted); }
+.radar text.v { fill: var(--ink); font-size: 12px; font-weight: 500; }
+.radar text.v.neg { fill: var(--copper); }
+.radar text.ringlbl { font-size: 9px; }
+.sip { display: grid; gap: 0; }
+.sip-step { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.sip-step .t { font-family: var(--f-mono); font-size: var(--step--1); color: var(--liquor); }
+.sip-step h3 { font-family: var(--f-body); font-weight: 600; font-size: var(--step-0); margin-bottom: 4px; }
+
+/* rituals */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab {
+  font: 500 var(--step--1)/1.2 var(--f-body); cursor: pointer; text-align: left;
+  padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink);
+}
+.tab[aria-selected="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.ritual { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; align-items: center; background: var(--paper); border: 1px solid var(--line); padding: clamp(18px, 3vw, 32px); }
+.ritual svg { width: 100%; max-width: 200px; height: auto; justify-self: center; }
+.ritual .glass { fill: none; stroke: var(--cup-rim); stroke-width: 2.5; }
+.ritual-info { display: grid; gap: 14px; min-width: 0; }
+.ritual-info h3 { font-size: var(--step-2); }
+.params { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.params div { padding: 10px 10px 10px 0; border-bottom: 1px solid var(--line); display: grid; gap: 0; }
+.params b { font-family: var(--f-display); font-weight: 400; font-size: var(--step-1); }
+
+/* pharmacology */
+.pharm { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.dots-wrap { display: grid; gap: 18px; }
+.dots-group { display: grid; gap: 8px; }
+.dots { display: flex; flex-wrap: wrap; gap: 5px; max-width: 330px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+.dots.caf i { background: var(--copper); }
+.dots.the i { background: var(--leaf); }
+.ratio { font-family: var(--f-display); font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1; }
+
+/* verdict */
+.verdict { padding-block: clamp(56px, 10vw, 120px); border-top: 1px solid var(--line); display: grid; gap: 28px; justify-items: start; }
+.verdict h2 { font-size: clamp(2.2rem, 6vw, 4.4rem); max-width: 16ch; }
+.verdict ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; max-width: 64ch; }
+.score { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.score b { font-family: var(--f-display); font-weight: 400; font-size: clamp(3.5rem, 10vw, 6.5rem); line-height: 1; color: var(--liquor); }
+footer { border-top: 1px solid var(--line); padding-block: 28px 48px; display: grid; gap: 8px; color: var(--muted); font-size: var(--step--1); }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .sec { grid-template-columns: minmax(0, 1fr); }
+  .sec-tag { position: static; grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 14px; }
+  .sec-tag .num { font-size: 1.8rem; }
+  .aroma, .sense, .pharm { grid-template-columns: minmax(0, 1fr); }
+  .tension { grid-template-columns: minmax(0, 1fr); }
+  .vs { justify-self: center; }
+  .ritual { grid-template-columns: minmax(0, 1fr); }
+  .ritual svg { max-width: 140px; }
+  .proc li { grid-template-columns: 2.4rem minmax(0, 1fr); }
+  .proc .e { grid-column: 2; }
+}
+@media (max-width: 480px) {
+  .dot-row { grid-template-columns: 7.5em minmax(0, 1fr); }
+  .sip-step { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .chem-row { grid-template-columns: 8em 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="hero-text">
+    <p class="label"><em class="latin" style="text-transform:none;letter-spacing:0;font-family:var(--f-body);font-size:1rem">Camellia universalis</em> &nbsp;·&nbsp; Formulation spec, October 2026</p>
+    <h1>Pangaea<span>Oolong-Black</span></h1>
+    <p class="lede">One tea, designed from the gene up, for every palate on Earth: the Kyoto purist, the Lahore chai stall, the Marrakech host, the Texas iced-tea pitcher and the boba queue in Taipei.</p>
+    <div class="meta label">
+      <span>8 tea-drinking blocs</span>
+      <span>4 brewing rituals</span>
+      <span>1 leaf</span>
+    </div>
+  </div>
+
+  <div class="cup-stage">
+    <svg class="cup-svg" viewBox="0 0 400 400" role="img" aria-label="Top-down view of a porcelain cup; the tea colour follows the oxidation slider">
+      <defs>
+        <radialGradient id="liq" cx="42%" cy="38%" r="70%">
+          <stop id="liqA" offset="0%" stop-color="#E6B04A"></stop>
+          <stop id="liqB" offset="70%" stop-color="#D9962A"></stop>
+          <stop id="liqC" offset="100%" stop-color="#B7741A"></stop>
+        </radialGradient>
+        <radialGradient id="gloss" cx="35%" cy="30%" r="40%">
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".45"></stop>
+          <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"></stop>
+        </radialGradient>
+      </defs>
+      <ellipse class="shadow" cx="208" cy="212" rx="186" ry="186"></ellipse>
+      <circle class="saucer" cx="200" cy="200" r="186" stroke-width="1.5"></circle>
+      <circle cx="200" cy="200" r="150" fill="none" stroke="var(--line)" stroke-width="1"></circle>
+      <rect class="cup-body" x="322" y="180" width="54" height="40" rx="20"></rect>
+      <circle class="cup-body" cx="200" cy="200" r="130"></circle>
+      <circle id="liquor" cx="200" cy="200" r="114" fill="url(#liq)"></circle>
+      <g id="ripples"></g>
+      <circle cx="200" cy="200" r="114" fill="url(#gloss)"></circle>
+      <circle cx="200" cy="200" r="114" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="3"></circle>
+    </svg>
+
+    <div class="ox-panel">
+      <div class="ox-head">
+        <label for="ox" class="label">Oxidation</label>
+        <span class="ox-cat" id="oxCat">High-mountain oolong territory</span>
+      </div>
+      <div class="ox-head">
+        <span class="ox-val mono" id="oxVal">32%</span>
+      </div>
+      <input type="range" id="ox" min="0" max="100" value="32" step="1" aria-describedby="oxCat">
+      <div class="ox-scale" aria-hidden="true">
+        <span style="left:0">green</span>
+        <span class="target" style="left:32%">32% ▲</span>
+        <span style="left:100%">black</span>
+      </div>
+      <div class="chem" aria-live="polite">
+        <div class="chem-row"><span>Catechins left</span><div class="chem-track"><div class="chem-fill" id="cCat" style="background:var(--leaf)"></div></div></div>
+        <div class="chem-row"><span>Theaflavins</span><div class="chem-track"><div class="chem-fill" id="cTf" style="background:var(--liquor)"></div></div></div>
+        <div class="chem-row"><span>Thearubigins</span><div class="chem-track"><div class="chem-fill" id="cTr" style="background:var(--copper)"></div></div></div>
+      </div>
+      <div class="ox-foot">
+        <span class="note">Drag to oxidise the leaf. Curves are illustrative.</span>
+        <button class="btn" id="oxReset" type="button">Stop at 32%</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= PREMISE ================= -->
+<section class="sec" id="premise">
+  <div class="sec-tag"><span class="num">i.</span><span class="label">The premise</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Tea split humanity in two. This leaf is an attempt to put it back together.</h2>
+      <div class="prose">
+        <p>Half the world drinks tea naked and reveres subtlety. The other half boils it with milk, sugar, mint or spice. Any universal tea has to satisfy both, in the same leaf.</p>
+      </div>
+    </div>
+    <div class="tension">
+      <div class="pole">
+        <span class="label">East Asia</span>
+        <h3>Subtle &amp; unadorned</h3>
+        <ul>
+          <li>Green teas and high-aroma oolongs</li>
+          <li>Prized for umami and L-theanine</li>
+          <li>Fresh floral notes, never sweetened</li>
+        </ul>
+      </div>
+      <div class="vs" aria-hidden="true">vs</div>
+      <div class="pole">
+        <span class="label">South Asia · MENA · the West</span>
+        <h3>Dense &amp; dressed up</h3>
+        <ul>
+          <li>Robust CTC Assam and Ceylon blacks</li>
+          <li>Milk, sugar, mint, lemon, boba</li>
+          <li>Warming spices, served hot or iced</li>
+        </ul>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><b class="mono" style="font-family:var(--f-display)">−1.39</b><span>points on a 9-point hedonic scale when tea is rated “much too” astringent</span></div>
+      <div class="fact"><b>~30%</b><span>of consumers find ordinary green or plain black tea astringency “just about right”</span></div>
+      <div class="fact good"><b>3</b><span>universal pleasure drivers: sweetness, silky mouthfeel, floral-fruity retronasal aroma</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EQUATION ================= -->
+<section class="sec" id="calculus">
+  <div class="sec-tag"><span class="num">§1</span><span class="label">Hedonic calculus</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Jeremy Bentham, 1789, rewritten for the tongue</h2>
+      <div class="prose"><p>Bentham proposed measuring pleasure by intensity, duration, certainty, propinquity and fecundity. The project turns his list into a utility function for a cup of tea. Tap any term to see what it measures.</p></div>
+    </div>
+    <div class="eq-box">
+      <div class="eq" aria-label="Global hedonic utility equation">
+        <span>𝓗<sub>global</sub></span><span class="op">=</span>
+        <span>Σ<sub>r</sub></span>
+        <button class="term" data-k="w" type="button">w<sub>r</sub></button>
+        <span class="op">· [ (</span>
+        <button class="term plus" data-k="aroma" type="button">I·Φ</button><span class="op">+</span>
+        <button class="term plus" data-k="huigan" type="button">D·Υ</button><span class="op">+</span>
+        <button class="term plus" data-k="sweet" type="button">C·Ψ</button><span class="op">+</span>
+        <button class="term plus" data-k="fam" type="button">P·Ω</button>
+        <span class="op">) − (</span>
+        <button class="term minus" data-k="bitter" type="button">βB</button><span class="op">+</span>
+        <button class="term minus" data-k="astr" type="button">αA</button><span class="op">+</span>
+        <button class="term minus" data-k="powder" type="button">πP</button>
+        <span class="op">) ] ·</span>
+        <button class="term plus" data-k="fec" type="button">𝓕</button>
+      </div>
+      <div class="term-def" id="termDef" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHEMISTRY ================= -->
+<section class="sec" id="chemistry">
+  <div class="sec-tag"><span class="num">§2</span><span class="label">Chemistry of rejection</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Why most tea gets pushed away</h2>
+      <div class="prose">
+        <p>Bitterness comes from caffeine and gallated catechins firing the hTAS2R bitter receptors (EGCG and ECG hit hTAS2R39 and hTAS2R14). Astringency is a touch sensation, not a taste. Polyphenols cross-link with proline-rich proteins in saliva, strip the lubricating mucin film off the mouth, and raise friction across the tongue.</p>
+        <p>The chart shows <strong>dose over threshold</strong> (DOT) in a standard infusion. Anything right of the dashed line is a compound you can actually taste.</p>
+      </div>
+    </div>
+    <div class="chart-frame">
+      <div class="chart-inner">
+        <div class="dot-row">
+          <span></span>
+          <div class="dot-plot" id="dotPlot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="shield">
+      <div><span class="label">The counter-move</span><b>L-theanine</b><p>Umami, brothy and mellowing. It dampens the harshness of EGCG and caffeine and amplifies glutamate on the T1R1/T1R3 umami receptor.</p></div>
+      <div><span class="label">The rule</span><b>P/A &lt; 3.0</b><p>Keep polyphenols under three times the amino acids and panels move from “harsh, medicinal” to “round, luxurious”.</p></div>
+      <div><span class="label">The precedent</span><b>25–35 mg/g</b><p>Theanine in shaded Gyokuro and Tencha, against under 10 mg/g in ordinary sun-grown leaf.</p></div>
+    </div>
+
+    <div class="aroma">
+      <div class="aroma-col">
+        <h3><span>Group I</span><span class="label bad">grassy · suppress</span></h3>
+        <p class="note">From the lipoxygenase pathway. Lawn clippings and raw vegetables. Too much of it loses Western and South Asian drinkers.</p>
+        <div class="vol"><span class="n">(Z)-3-Hexenol</span><span class="chip bad">grass</span></div>
+        <div class="vol"><span class="n">(E)-2-Hexenal</span><span class="chip bad">raw leaf</span></div>
+        <div class="vol"><span class="n">Hexanal</span><span class="chip bad">green bean</span></div>
+      </div>
+      <div class="aroma-col">
+        <h3><span>Group II</span><span class="label good-c">floral · fruity · amplify</span></h3>
+        <p class="note">From the terpenoid and phenylpropanoid pathways. More than 600 volatiles make up tea aroma; these are the ones people love.</p>
+        <div class="vol"><span class="n">Linalool</span><span class="chip good-c">lavender, citrus</span></div>
+        <div class="vol"><span class="n">Geraniol</span><span class="chip good-c">rose, honey</span></div>
+        <div class="vol"><span class="n">Nerolidol</span><span class="chip good-c">orchid, green apple</span><span class="d">Hallmark of premium Dancong and Tieguanyin oolongs.</span></div>
+        <div class="vol"><span class="n">β-Ionone &amp; β-Damascenone</span><span class="chip good-c">violet, baked apple</span><span class="d">Detectable in parts per trillion.</span></div>
+        <div class="vol"><span class="n">Jasmine lactone</span><span class="chip good-c">peach, apricot</span></div>
+        <div class="vol"><span class="n">Pyrazines</span><span class="chip good-c">toast, hazelnut</span><span class="d">Formed in a light Maillard roast.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BLOCS ================= -->
+<section class="sec" id="blocs">
+  <div class="sec-tag"><span class="num">§3</span><span class="label">Who it has to please</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>A map of how the world takes its tea</h2>
+    </div>
+    <div class="blocs">
+      <div class="bloc"><span class="label">East Asia</span><span class="where">China · Japan · Taiwan</span><ul><li>Fully unsweetened, hot or cold</li><li>Green, oolong, pu-erh</li><li>Prizes umami, orchid aroma, <span class="cjk">回甘</span></li></ul><span class="rej">Rejects: syrups, heavy milk</span></div>
+      <div class="bloc"><span class="label">South Asia</span><span class="where">India · Pakistan · Bangladesh</span><ul><li>90% boiled with milk and sugar</li><li>CTC black base</li><li>Cardamom, ginger, cinnamon</li></ul><span class="rej">Rejects: grassy, weak or sour tea</span></div>
+      <div class="bloc"><span class="label">Middle East &amp; N. Africa</span><span class="where">Maghreb · Gulf · Turkey · Iran</span><ul><li>Gunpowder green, spearmint, sugar</li><li>Karak: black tea with evaporated milk</li><li>Hot black tea in clear glass</li></ul></div>
+      <div class="bloc"><span class="label">UK &amp; Ireland</span><span class="where">Breakfast-tea country</span><ul><li>Strong, malty, hot</li><li>80%+ taken with milk</li><li>A biscuit and a comfort ritual</li></ul></div>
+      <div class="bloc"><span class="label">North America &amp; Oceania</span><span class="where">The iced-tea belt</span><ul><li>75–80% drunk iced</li><li>Lemon and sweet peach</li><li>Cold brew and zero-calorie functional drinks</li></ul></div>
+      <div class="bloc"><span class="label">Global youth &amp; boba</span><span class="where">Taipei to Toronto</span><ul><li>Cold, chewy pearls, high viscosity</li><li>Cheese foam, brown sugar, dairy</li><li>Floral oolong and black bases</li></ul></div>
+    </div>
+    <div class="sec-head">
+      <h3>Four tests every cup must pass</h3>
+    </div>
+    <div class="tests">
+      <div class="test"><span class="label">Milk stability</span><p>Green tea curdles milk and turns grey. Theaflavins and heavier polyphenols cut through fat and emulsify cleanly.</p><span class="pass">✓ malty theaflavin backbone</span></div>
+      <div class="test"><span class="label">Naked viability</span><p>Brewed in plain porcelain it must taste sublime: no bitterness, no pucker, deep umami, natural florals.</p><span class="pass">✓ theanine shield, P/A &lt; 3</span></div>
+      <div class="test"><span class="label">Cold &amp; citrus</span><p>Over ice or with lemon it must stay clear (no cold haze) and never turn sour.</p><span class="pass">✓ 32% oxidation stops short of thearubigins</span></div>
+      <div class="test"><span class="label">Spice &amp; mint</span><p>Warm, sweet, nutty notes that welcome spearmint, cardamom, clove and ginger without clashing.</p><span class="pass">✓ pyrazines from the charcoal bake</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CULTIVAR ================= -->
+<section class="sec" id="cultivar">
+  <div class="sec-tag"><span class="num">§4</span><span class="label">The plant</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Bred, not blended</h2>
+      <div class="prose"><p>The flavour starts in the leaf itself. Four <em class="latin">Camellia sinensis</em> cultivars, each chosen for one trait, combine into a single plant.</p></div>
+    </div>
+    <div class="tree" aria-label="Cultivar cross diagram">
+      <div class="tree-row">
+        <div class="node"><span class="cv">Jin Xuan (TRES #12)</span><span class="var">var. sinensis</span><span class="trait">creamy, buttery lactones</span></div>
+        <span class="cross" aria-hidden="true">×</span>
+        <div class="node"><span class="cv">Tieguanyin / Huangdan</span><span class="var">var. sinensis</span><span class="trait">nerolidol, terpene precursors</span></div>
+      </div>
+      <span class="down" aria-hidden="true">↓</span>
+      <div class="tree-row"><div class="node f1"><span class="cv">F1 floral hybrid</span></div></div>
+      <span class="down" aria-hidden="true">↓</span>
+      <div class="tree-row">
+        <div class="node"><span class="cv">TTES #18 Ruby (Hongyu)</span><span class="var">var. assamica</span><span class="trait">cinnamon, mint, theaflavin base</span></div>
+        <span class="cross" aria-hidden="true">×</span>
+        <div class="node"><span class="cv">Anji Baicha</span><span class="var">var. sinensis · albino mutant</span><span class="trait">theanine above 6%</span></div>
+      </div>
+      <span class="down" aria-hidden="true">↓</span>
+      <div class="node final"><span class="label">Final cultivar</span><span class="cv">Camellia universalis</span></div>
+    </div>
+    <div class="agro">
+      <div><span class="label">Elevation</span><b>&gt;1,400 m</b><span class="note">UV and cold nights push floral over grassy</span></div>
+      <div><span class="label">Shade before plucking</span><b>21 days</b><span class="note">under 85–90% black screens</span></div>
+      <div><span class="label">Leaf theanine</span><b>&gt;38 mg/g</b><span class="note">dry weight</span></div>
+      <div><span class="label">EGCG + ECG</span><b>−45%</b><span class="note">the bitter catechins</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="sec" id="process">
+  <div class="sec-tag"><span class="num">§5</span><span class="label">From bush to pearl</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Half oolong, half breakfast black, frozen at 32%</h2>
+      <div class="prose"><p>The leaf has to behave like an aromatic mountain oolong and a comforting black tea at once. The trick is to oxidise just far enough to build bright, sweet theaflavins, then kill the enzyme before the dark, astringent thearubigins form.</p></div>
+    </div>
+    <ol class="proc">
+      <li><span class="i">1</span><div><h3>Plucking</h3><span class="p">bud + 2 tender leaves</span></div><p class="e">Only the youngest growth, where theanine and aroma precursors concentrate.</p></li>
+      <li><span class="i">2</span><div><h3>Withering</h3><span class="p">solar, then indoor · 60% moisture loss</span></div><p class="e">Wakes up the glycosidase enzymes that will free aroma.</p></li>
+      <li><span class="i">3</span><div><h3>Wave bruising <span class="cjk">摇青</span></h3><span class="p">4 cycles · 15–45 min</span></div><p class="e">Tossing cracks the leaf edges and releases linalool and geraniol from their sugar-bound precursors.</p></li>
+      <li class="key"><span class="i">4</span><div><h3>Controlled oxidation</h3><span class="p">25 °C · 88% RH · 110 min · 32%</span></div><p class="e">Polyphenol oxidase turns catechins into theaflavin-3-gallate: orange-red, bright and sweet.</p></li>
+      <li class="key"><span class="i">5</span><div><h3>Fixation <span class="cjk">杀青</span></h3><span class="p">240 °C drum · 120 s</span></div><p class="e">Heat destroys the enzyme and locks oxidation at the golden-amber point.</p></li>
+      <li><span class="i">6</span><div><h3>Ball rolling <span class="cjk">包揉</span></h3><span class="p">cloth-wrapped, repeated</span></div><p class="e">Presses the leaf into tight pearls and coats the surface in its own dried sap.</p></li>
+      <li><span class="i">7</span><div><h3>Two-stage bake</h3><span class="p">100 °C dry · 82 °C over fruitwood charcoal</span></div><p class="e">The charcoal stage drives Strecker reactions that make pyrazines: warm toasted-biscuit notes.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= BLEND ================= -->
+<section class="sec" id="blend">
+  <div class="sec-tag"><span class="num">§6</span><span class="label">The botanical matrix</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Fourteen percent that does the persuading</h2>
+      <div class="prose"><p>Seven food-safe botanicals, all permitted under FEMA-GRAS, EU 1334/2008 and China GB2760, each picked to work on a specific receptor or sensation. Hover a band to find its entry.</p></div>
+    </div>
+    <div class="blend">
+      <div class="bar" id="barMain" aria-hidden="true"></div>
+      <div class="zoom" aria-hidden="true"><svg viewBox="0 0 1000 26" preserveAspectRatio="none"><path id="zoomPath" d="M860 0 L1000 0 L1000 26 L0 26 Z"></path></svg></div>
+      <div class="bar" id="barZoom" aria-hidden="true"></div>
+      <div class="ox-scale" aria-hidden="true"><span style="left:0">botanicals, enlarged ×7</span><span style="left:100%">14.0%</span></div>
+      <div class="bot-list" id="botList"></div>
+      <div class="excluded"><span class="label">Excluded by design</span><s>Papaver somniferum</s><s>Erythroxylum coca</s><span class="note">No shortcuts.</span></div>
+    </div>
+    <div class="synergy">
+      <div><span class="label">Smell becomes sweetness</span><b>+25–35%</b><p>Vanillin and γ-decalactone reach the brain through the nose, not the tongue. Learned association makes the drink taste sweeter with no sugar added.</p></div>
+      <div><span class="label">Sweetness that lingers</span><b>10+ min</b><p>Glycyrrhizin binds the sweet receptor more slowly than sucrose. Sweetness peaks about 15 seconds after swallowing and lasts for minutes.</p></div>
+      <div><span class="label">An end to pucker</span><b>Silk</b><p>Marshmallow-root polysaccharides act like a stand-in for saliva and shield the mouth from the polyphenols that remain.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SENSORY ================= -->
+<section class="sec" id="sensory">
+  <div class="sec-tag"><span class="num">§7</span><span class="label">How it tastes</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Big where it counts, near zero where it hurts</h2>
+      <div class="prose"><p>Target profile on the Spectrum™ descriptive scale, 0–15. Pleasure attributes in amber, the rejection drivers in red.</p></div>
+    </div>
+    <div class="sense">
+      <svg class="radar" id="radar" viewBox="-200 -175 400 350" role="img" aria-label="Radar chart of the target sensory profile"></svg>
+      <div class="sip">
+        <span class="label">One sip, in time</span>
+        <div class="sip-step"><span class="t">0–5 s</span><div><h3>First impression</h3><p>A luminous amber cup. Night-blooming jasmine, apricot peel and bergamot zest burst up the back of the nose.</p></div></div>
+        <div class="sip-step"><span class="t">5–15 s</span><div><h3>Mid-palate</h3><p>A silky slide across the tongue. Madagascar vanilla, malted biscuit, a brothy umami depth. No pucker.</p></div></div>
+        <div class="sip-step"><span class="t">15 s – 10 min</span><div><h3>Finish · <span class="cjk">回甘</span> huigan</h3><p>The florals fade into a long honeyed “returning sweetness” at the sides and back of the throat, and a deep sense of calm.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RITUALS ================= -->
+<section class="sec" id="rituals">
+  <div class="sec-tag"><span class="num">§8</span><span class="label">Four rituals, one leaf</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Brew it the way your grandmother did</h2>
+      <div class="prose"><p>The same pearls are built to work in every major way the world makes tea.</p></div>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Brewing rituals" id="tabs"></div>
+    <div class="ritual" role="tabpanel" id="ritualPanel" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ================= PHARMACOLOGY ================= -->
+<section class="sec" id="mind">
+  <div class="sec-tag"><span class="num">§9</span><span class="label">What it does to you</span></div>
+  <div class="sec-body">
+    <div class="sec-head">
+      <h2>Relaxed alertness, by ratio</h2>
+    </div>
+    <div class="pharm">
+      <div class="dots-wrap" aria-label="Each dot is one milligram per 250 mL cup">
+        <div class="dots-group"><span class="label">Caffeine · 32 mg</span><div class="dots caf" id="dCaf"></div></div>
+        <div class="dots-group"><span class="label">L-theanine · 89 mg</span><div class="dots the" id="dThe"></div></div>
+        <span class="note">One dot = 1 mg, per 250 mL cup.</span>
+      </div>
+      <div class="prose">
+        <span class="ratio">1 : 2.8</span>
+        <p>Theanine crosses the blood-brain barrier, tempers glutamate signalling and raises GABA and dopamine in the prefrontal cortex. At this ratio the target is sustained alpha-band activity (8–12 Hz): awake and calm, without jitters or an afternoon crash.</p>
+        <p>Meanwhile vanillin and β-ionone travel the olfactory route straight into the orbitofrontal cortex and limbic system, where smell and memory live. Warmth, safety, a kitchen from childhood.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VERDICT ================= -->
+<section class="verdict">
+  <span class="label">§10 · Verdict</span>
+  <h2>Five thousand years of divergence, one cup.</h2>
+  <ol>
+    <li><strong>Shaded, theanine-rich agronomy</strong> removes the bitter and astringent penalty.</li>
+    <li><strong>Mountain-oolong partial oxidation</strong> builds dense floral and creamy volatiles.</li>
+    <li><strong>A malty theaflavin structure</strong> stands up to milk, ice and spice.</li>
+    <li><strong>Seven targeted botanicals</strong> add sweetness, silk and familiarity.</li>
+  </ol>
+  <div class="score"><b>&gt;9.4</b><span class="label">projected hedonic score out of 10,<br>across all eight blocs</span></div>
+</section>
+
+<footer>
+  <span>Pangaea Oolong-Black · <em class="latin">Camellia universalis</em> · Jonathan Davis with AI research synthesis, October 2026</span>
+  <span>A design specification. The sensory profile and hedonic score are design targets, not results from a grown and tasted crop.</span>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- Hero: oxidation cup ---------- */
+  var stops = [
+    [0,   [196, 205, 120]],
+    [12,  [214, 198, 92]],
+    [32,  [222, 150, 46]],
+    [60,  [176, 84, 30]],
+    [100, [104, 34, 16]]
+  ];
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function colorAt(x) {
+    for (var i = 1; i < stops.length; i++) {
+      if (x <= stops[i][0]) {
+        var a = stops[i - 1], b = stops[i], t = (x - a[0]) / (b[0] - a[0]);
+        return [0, 1, 2].map(function (k) { return Math.round(lerp(a[1][k], b[1][k], t)); });
+      }
+    }
+    return stops[stops.length - 1][1];
+  }
+  function rgb(c, f) { f = f || 1; return "rgb(" + c.map(function (v) { return Math.max(0, Math.min(255, Math.round(v * f))); }).join(",") + ")"; }
+  function category(x) {
+    if (x < 8) return "Green tea: unoxidised, grassy edge";
+    if (x < 20) return "Light oolong: jade and orchid";
+    if (x < 26) return "Approaching the target";
+    if (x <= 38) return "The Pangaea point: amber, floral, malty";
+    if (x < 60) return "Dark oolong: roasted, heavier";
+    if (x < 85) return "Heading into black tea";
+    return "Full black tea: brisk, tannic";
+  }
+  var ox = $("ox"), liqA = $("liqA"), liqB = $("liqB"), liqC = $("liqC");
+  function render(x) {
+    var c = colorAt(x);
+    liqA.setAttribute("stop-color", rgb(c, 1.12));
+    liqB.setAttribute("stop-color", rgb(c));
+    liqC.setAttribute("stop-color", rgb(c, .8));
+    $("oxVal").textContent = Math.round(x) + "%";
+    $("oxCat").textContent = category(x);
+    var cat = 100 * Math.pow(1 - x / 100, 1.3);
+    var tf = 100 * Math.exp(-Math.pow((x - 34) / 24, 2));
+    var tr = 100 / (1 + Math.exp(-(x - 62) / 10));
+    $("cCat").style.width = cat.toFixed(1) + "%";
+    $("cTf").style.width = tf.toFixed(1) + "%";
+    $("cTr").style.width = tr.toFixed(1) + "%";
+  }
+  var ripG = $("ripples"), lastRipple = 0;
+  function ripple() {
+    if (reduce) return;
+    var now = performance.now();
+    if (now - lastRipple < 180) return;
+    lastRipple = now;
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("cx", 200); c.setAttribute("cy", 200); c.setAttribute("r", 4);
+    c.setAttribute("class", "ripple");
+    ripG.appendChild(c);
+    var t0 = now;
+    (function step(t) {
+      var p = Math.min(1, (t - t0) / 1400);
+      c.setAttribute("r", 4 + p * 108);
+      c.setAttribute("stroke-opacity", (1 - p) * .9);
+      if (p < 1) requestAnimationFrame(step); else c.remove();
+    })(now);
+  }
+  ox.addEventListener("input", function () { render(+ox.value); ripple(); });
+  function animateTo(target, from) {
+    if (reduce) { ox.value = target; render(target); return; }
+    var t0 = performance.now(), dur = 1600;
+    (function step(t) {
+      var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      var v = from + (target - from) * e;
+      ox.value = Math.round(v); render(v);
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+    ripple();
+  }
+  $("oxReset").addEventListener("click", function () { animateTo(32, +ox.value); });
+  render(32);
+  if (!reduce) animateTo(32, 0);
+
+  /* ---------- Equation terms ---------- */
+  var terms = {
+    w:      ["weight", "Regional demographics", "Each of the 8 tea-drinking blocs is weighted by population, together representing roughly 8 billion potential drinkers."],
+    aroma:  ["pleasure", "Intensity × quality of aroma", "Linalool, geraniol, β-ionone, β-damascenone and lactones. Floral, apricot and honey notes score positive (+3.5); grassy aldehydes and smoky or fermented off-notes score negative."],
+    huigan: ["pleasure", "Duration of aftertaste × umami", "Huigan (回甘), “returning sweetness”: savoury theanine, glutamate and sweet flavonoids lingering after you swallow and holding back the bitter rebound."],
+    sweet:  ["pleasure", "Certainty of sweetness × silky viscosity", "Sweetness with no insulin spike, boosted by aroma cross-talk and smooth non-tannic polysaccharides such as arabinogalactans and pectins."],
+    fam:    ["pleasure", "Propinquity × cultural familiarity", "How close the cup feels to something already loved: Earl Grey citrus for Europe, chai spice for South Asia, mint for MENA, milk for Britain and Hong Kong, clean clarity for East Asia and US iced tea."],
+    bitter: ["penalty", "Bitterness", "Excess caffeine, gallated catechins (EGCG, ECG) and flavonol glycosides above their taste threshold (DOT > 1)."],
+    astr:   ["penalty", "Astringency", "Polyphenols precipitate salivary proline-rich proteins, and the mouth feels rough and dry."],
+    powder: ["penalty", "Powdery, drying mouth-coat", "The single biggest reason people stop drinking."],
+    fec:    ["multiplier", "Fecundity: will you pour a second cup?", "Bentham’s term for pleasure that leads to more pleasure. Here it means smooth, balanced caffeine and theanine with no crash and no tannin stomach-ache."]
+  };
+  var kindColor = { pleasure: "var(--leaf)", penalty: "var(--copper)", weight: "var(--muted)", multiplier: "var(--liquor)" };
+  var termBtns = document.querySelectorAll(".term");
+  function showTerm(k) {
+    var d = terms[k];
+    termBtns.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.k === k ? "true" : "false"); });
+    $("termDef").innerHTML = '<span class="kind" style="background:' + kindColor[d[0]] + '">' + d[0] + '</span><h3>' + d[1] + '</h3><p>' + d[2] + '</p>';
+  }
+  termBtns.forEach(function (b) { b.addEventListener("click", function () { showTerm(b.dataset.k); }); });
+  showTerm("huigan");
+
+  /* ---------- DOT chart ---------- */
+  var dot = [
+    ["EGCG", "190 µmol/L · astringent, bitter", 3.5, 6.0],
+    ["ECG", "180 µmol/L · harsh, bitter", 2.0, 4.5],
+    ["Caffeine", "500 µmol/L · sharp, brisk", 2.5, 4.0],
+    ["Theasinensin A", "65 µmol/L · velvety", 1.0, 1.8, true]
+  ];
+  var MAX = 6, plot = $("dotPlot"), html = "";
+  var frame = document.querySelector(".chart-inner");
+  frame.innerHTML = "";
+  dot.forEach(function (r) {
+    html += '<div class="dot-row"><span class="dot-name"><span>' + r[0] + '</span><small>' + r[1] + '</small></span>' +
+      '<div class="dot-track"><div class="dot-bar' + (r[4] ? " soft" : "") + '" style="left:' + (r[2] / MAX * 100) + '%;width:' + ((r[3] - r[2]) / MAX * 100) + '%" title="DOT ' + r[2] + '–' + r[3] + '"></div></div></div>';
+  });
+  var axis = '<div class="dot-row"><span class="label">DOT</span><div class="dot-axis">';
+  for (var i = 0; i <= MAX; i++) axis += '<span style="left:' + (i / MAX * 100) + '%">' + i + '</span>';
+  axis += '</div></div>';
+  frame.innerHTML = '<div style="position:relative;display:grid;gap:14px">' + html + axis +
+    '<div class="dot-row" style="position:absolute;inset:0;pointer-events:none;align-items:stretch"><span></span><div style="position:relative">' +
+    '<div class="dot-thresh" style="left:' + (1 / MAX * 100) + '%"></div><span class="dot-thresh-label" style="left:' + (1 / MAX * 100) + '%">taste threshold</span></div></div></div>';
+
+  /* ---------- Blend ---------- */
+  var bots = [
+    ["Osmanthus", "Osmanthus fragrans", 4.5, "#D9A22E", "β-ionone · linalool · γ-decalactone", "Stone-fruit and apricot lift; sweetness by smell"],
+    ["Jasmine", "Jasminum sambac", 3.0, "#E9E1C4", "benzyl acetate · indole · methyl jasmonate", "Heady floral top note; tricks the brain into tasting sugar"],
+    ["Licorice root", "Glycyrrhiza glabra", 2.5, "#6E4A2A", "glycyrrhizin", "50× sweeter than sucrose, no glycemic spike, long huigan"],
+    ["Roasted barley", "Hordeum vulgare", 1.5, "#93602E", "pyrazines · maltol", "Toasted cereal backbone, comforting grain"],
+    ["Vanilla", "Vanilla planifolia, Madagascar Bourbon", 1.0, "#3E2B1E", "vanillin · 4-hydroxybenzaldehyde", "Creamy impression that masks tannin"],
+    ["Marshmallow root", "Althaea officinalis", 1.0, "#E3BFC6", "arabinogalactans · pectins", "Silky coating; replaces the dry pucker"],
+    ["Bergamot", "Citrus bergamia, cold-pressed", 0.5, "#A4C03C", "linalyl acetate · limonene · citral", "Earl Grey brightness for Western palates"]
+  ];
+  var main = $("barMain"), zoom = $("barZoom"), list = $("botList");
+  main.innerHTML = '<div class="leafseg" style="width:86%">86.0% hybrid leaf · <em style="margin-left:.4em">C. universalis</em></div>';
+  var mainRest = document.createElement("div");
+  mainRest.style.cssText = "width:14%;display:flex";
+  main.appendChild(mainRest);
+  var listHtml = '<div class="bot" data-i="leaf"><span class="sw" style="background:var(--leaf)"></span><span class="nm">Hybrid base leaf <em>Camellia universalis</em></span><span class="pc">86.0%</span><span class="mol">L-theanine · theaflavins · nerolidol · linalool</span><span class="fn">Umami foundation, malt, amber liquor, no grassiness</span></div>';
+  bots.forEach(function (b, i) {
+    var seg = '<div data-i="' + i + '" style="width:' + (b[2] / 14 * 100) + '%;background:' + b[3] + ';border-right:1px solid var(--paper)"></div>';
+    mainRest.insertAdjacentHTML("beforeend", seg);
+    zoom.insertAdjacentHTML("beforeend", seg);
+    listHtml += '<div class="bot" data-i="' + i + '"><span class="sw" style="background:' + b[3] + '"></span><span class="nm">' + b[0] + ' <em>' + b[1] + '</em></span><span class="pc">' + b[2].toFixed(1) + '%</span><span class="mol">' + b[4] + '</span><span class="fn">' + b[5] + '</span></div>';
+  });
+  list.innerHTML = listHtml;
+  function hl(i, on) {
+    document.querySelectorAll('[data-i="' + i + '"]').forEach(function (el) { el.classList.toggle("hl", on); });
+  }
+  document.querySelectorAll("#barMain [data-i], #barZoom [data-i], .bot").forEach(function (el) {
+    el.addEventListener("mouseenter", function () { hl(el.dataset.i, true); });
+    el.addEventListener("mouseleave", function () { hl(el.dataset.i, false); });
+  });
+  main.querySelector(".leafseg").dataset.i = "leaf";
+  main.querySelector(".leafseg").addEventListener("mouseenter", function () { hl("leaf", true); });
+  main.querySelector(".leafseg").addEventListener("mouseleave", function () { hl("leaf", false); });
+
+  /* ---------- Radar ---------- */
+  var attrs = [
+    ["Sweetness", 8.8], ["Umami", 8.5], ["Body", 8.2], ["Refreshing", 7.8], ["Astringency", 1.6, 1],
+    ["Bitterness", 1.2, 1], ["Grassy", 0.8, 1], ["Malt / toast", 7.5], ["Fruit / apricot", 8.0], ["Floral", 9.2]
+  ];
+  var R = 130, SC = 15, svg = $("radar"), NS = "http://www.w3.org/2000/svg", s = "";
+  function pt(i, v) {
+    var a = -Math.PI / 2 + i * 2 * Math.PI / attrs.length;
+    return [Math.cos(a) * R * v / SC, Math.sin(a) * R * v / SC];
+  }
+  [5, 10, 15].forEach(function (v) {
+    var p = attrs.map(function (_, i) { return pt(i, v).join(","); }).join(" ");
+    s += '<polygon class="ring" points="' + p + '"></polygon>';
+    s += '<text class="ringlbl" x="4" y="' + (-R * v / SC + 10) + '">' + v + '</text>';
+  });
+  attrs.forEach(function (a, i) {
+    var e = pt(i, SC);
+    s += '<line class="spoke" x1="0" y1="0" x2="' + e[0] + '" y2="' + e[1] + '"></line>';
+  });
+  s += '<polygon class="shape" points="' + attrs.map(function (a, i) { return pt(i, a[1]).join(","); }).join(" ") + '"></polygon>';
+  attrs.forEach(function (a, i) {
+    var p = pt(i, a[1]);
+    s += '<circle class="pt' + (a[2] ? " neg" : "") + '" cx="' + p[0] + '" cy="' + p[1] + '" r="3.5"></circle>';
+    var l = pt(i, SC + 2.2), anchor = Math.abs(l[0]) < 8 ? "middle" : (l[0] > 0 ? "start" : "end");
+    s += '<text x="' + l[0] + '" y="' + (l[1] - 3) + '" text-anchor="' + anchor + '">' + a[0] + '</text>';
+    s += '<text class="v' + (a[2] ? " neg" : "") + '" x="' + l[0] + '" y="' + (l[1] + 11) + '" text-anchor="' + anchor + '">' + a[1].toFixed(1) + '</text>';
+  });
+  svg.innerHTML = s;
+
+  /* ---------- Rituals ---------- */
+  var rituals = [
+    { tab: "Purist", name: "The Purist Infusion", where: "East Asian gongfu · Western teapot",
+      p: [["Leaf", "3.0 g"], ["Water", "250 mL"], ["Temp", "85 °C"], ["Steep", "2 min 30 s"]],
+      add: "Nothing. Clear glass or white porcelain, drunk naked.",
+      prof: "Golden amber, jasmine and orchid aroma, a deep sweet theanine finish.",
+      cup: "#DE962E", fill: .72 },
+    { tab: "Royal dairy", name: "The Royal Dairy Emulsion", where: "Chai · British & Irish breakfast · Karak",
+      p: [["Leaf", "6.0 g"], ["Boil", "150 mL · 2 min"], ["Milk", "100 mL"], ["Simmer", "90 s"]],
+      add: "Whole, oat or soy milk and 5 g raw cane sugar or honey. Optional: one crushed green cardamom pod and a sliver of fresh ginger. Simmer until a frothy caramel cap forms.",
+      prof: "Spiced crème-brûlée texture; malt and vanilla cut through the milk fat.",
+      cup: "#C99A6A", fill: .78, foam: "#EAD6B8" },
+    { tab: "Maghreb mint", name: "The Maghreb Fresh Mint Steep", where: "North African hospitality",
+      p: [["Leaf", "4.0 g"], ["Water", "300 mL"], ["Temp", "95 °C"], ["Pour", "from height"]],
+      add: "Five sprigs of fresh spearmint and 10 g sugar. Pour high from a gooseneck pot to raise a thick foam head (rezzawa).",
+      prof: "Bergamot, jasmine and osmanthus meet spearmint: ultra-fresh and thirst-quenching, with no tannic bite.",
+      cup: "#C9A23A", fill: .7, mint: true },
+    { tab: "Cold brew & boba", name: "The 6-Hour Cold Brew", where: "American iced tea · Taiwanese bubble tea",
+      p: [["Leaf", "10 g"], ["Water", "1,000 mL"], ["Temp", "4–6 °C"], ["Steep", "6–8 h"]],
+      add: "Pour over ice with a lemon wheel, or shake with milk and tapioca pearls.",
+      prof: "No bitterness extracted, lots of theanine. A naturally sweet stone-fruit iced tea that stays perfectly clear.",
+      cup: "#E3A94E", fill: .82, ice: true }
+  ];
+  var tabs = $("tabs"), panel = $("ritualPanel"), cur = 0;
+  rituals.forEach(function (r, i) {
+    var b = document.createElement("button");
+    b.className = "tab"; b.type = "button"; b.id = "tab-" + i;
+    b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "ritualPanel");
+    b.textContent = r.tab;
+    b.addEventListener("click", function () { select(i); });
+    b.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        var n = (i + (e.key === "ArrowRight" ? 1 : rituals.length - 1)) % rituals.length;
+        select(n); tabs.children[n].focus();
+      }
+    });
+    tabs.appendChild(b);
+  });
+  function glassSvg(r) {
+    var top = 30, bot = 190, h = bot - top, ly = bot - h * r.fill;
+    var x = function (y) { return 40 + (y - top) * 0.12; };
+    var g = '<svg viewBox="0 0 200 210" aria-hidden="true">';
+    g += '<clipPath id="gc"><path d="M' + x(top) + ' ' + top + ' L' + (200 - x(top)) + ' ' + top + ' L' + (200 - x(bot)) + ' ' + bot + ' L' + x(bot) + ' ' + bot + ' Z"></path></clipPath>';
+    g += '<g clip-path="url(#gc)"><rect x="0" y="' + ly + '" width="200" height="' + (bot - ly) + '" fill="' + r.cup + '"></rect>';
+    if (r.foam) g += '<rect x="0" y="' + ly + '" width="200" height="14" fill="' + r.foam + '"></rect>';
+    if (r.ice) {
+      g += '<rect x="62" y="' + (ly - 6) + '" width="30" height="30" rx="5" fill="rgba(255,255,255,.5)" transform="rotate(12 77 ' + ly + ')"></rect>';
+      g += '<rect x="102" y="' + (ly + 22) + '" width="28" height="28" rx="5" fill="rgba(255,255,255,.4)" transform="rotate(-10 116 ' + (ly + 36) + ')"></rect>';
+      for (var k = 0; k < 9; k++) g += '<circle cx="' + (64 + (k % 5) * 18) + '" cy="' + (176 - Math.floor(k / 5) * 12) + '" r="6.5" fill="#2B1A12"></circle>';
+    }
+    if (r.mint) {
+      g += '<path d="M100 ' + (ly - 26) + ' q-22 8 -14 34 q20 -8 14 -34 Z" fill="#4F8F4A"></path>';
+      g += '<path d="M104 ' + (ly - 20) + ' q24 6 18 30 q-22 -6 -18 -30 Z" fill="#5FA356"></path>';
+    }
+    g += '</g><path class="glass" d="M' + x(top) + ' ' + top + ' L' + x(bot) + ' ' + bot + ' L' + (200 - x(bot)) + ' ' + bot + ' L' + (200 - x(top)) + ' ' + top + '"></path></svg>';
+    return g;
+  }
+  function select(i) {
+    cur = i;
+    Array.prototype.forEach.call(tabs.children, function (b, j) {
+      b.setAttribute("aria-selected", j === i ? "true" : "false");
+      b.tabIndex = j === i ? 0 : -1;
+    });
+    panel.setAttribute("aria-labelledby", "tab-" + i);
+    var r = rituals[i];
+    panel.innerHTML = glassSvg(r) +
+      '<div class="ritual-info"><span class="label">' + r.where + '</span><h3>' + r.name + '</h3>' +
+      '<div class="params">' + r.p.map(function (q) { return '<div><span class="label">' + q[0] + '</span><b>' + q[1] + '</b></div>'; }).join("") + '</div>' +
+      '<p>' + r.add + '</p><p class="note">' + r.prof + '</p></div>';
+  }
+  select(0);
+
+  /* ---------- Dots ---------- */
+  $("dCaf").innerHTML = new Array(33).join("<i></i>");
+  $("dThe").innerHTML = new Array(90).join("<i></i>");
+})();
+</script>
+</body>
+</html>
